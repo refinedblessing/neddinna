@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/andela-bebowe/neddinna/badges/gpa.svg)](https://codeclimate.com/github/andela-bebowe/neddinna)
 [![Test Coverage](https://codeclimate.com/github/andela-bebowe/neddinna/badges/coverage.svg)](https://codeclimate.com/github/andela-bebowe/neddinna/coverage)
 [![Issue Count](https://codeclimate.com/github/andela-bebowe/neddinna/badges/issue_count.svg)](https://codeclimate.com/github/andela-bebowe/neddinna)
+[![Build Status](https://travis-ci.org/andela-bebowe/neddinna.svg?branch=master)](https://travis-ci.org/andela-bebowe/neddinna)
 
 Neddinna is a [DSL](http://en.wikipedia.org/wiki/Domain-specific_language) for quickly creating light weight web applications in Ruby with really minimal effort. :)
 
@@ -25,7 +26,7 @@ Or install it yourself as:
 
 In your file e.g myapp.rb
 
-#myapp.rb
+###### myapp.rb
 
 require "neddinna"
 
