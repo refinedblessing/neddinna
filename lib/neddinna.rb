@@ -1,5 +1,5 @@
+require "pry"
+require_relative "neddinna/lib_helper"
 require "neddinna/version"
-require_relative "neddinna/application"
-
 module Neddinna
 end
