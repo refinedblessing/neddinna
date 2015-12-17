@@ -1,6 +1,8 @@
 require "simplecov"
 require "pry"
 require "rack"
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 SimpleCov.start do
   add_filter "spec"
 end
