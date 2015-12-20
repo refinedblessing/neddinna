@@ -1,5 +1,4 @@
 require "spec_helper"
-require "yaml"
 
 describe Neddinna::Application do
   let(:app) { Neddinna::Application.new }

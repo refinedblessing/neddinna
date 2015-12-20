@@ -38,7 +38,7 @@ module Neddinna
 
     def parse_to(to_string)
       klass, method = to_string.split("#")
-      { klass: klass.capitalize, method: method }
+      { klass: klass.to_camel_case, method: method }
     end
   end
 end

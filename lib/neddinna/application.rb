@@ -10,8 +10,7 @@ module Neddinna
       request = Rack::Request.new(env)
       route = @routes.route_for(request)
       if route
-        response = route.execute(request)
-        return [200, {}, [response]]
+        return route.execute(request)
       else
         return [404, {}, ["Page not found"]]
       end

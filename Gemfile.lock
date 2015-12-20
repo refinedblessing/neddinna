@@ -3,10 +3,13 @@ PATH
   specs:
     neddinna (0.1.0)
       rack (~> 1.6.4)
+      tilt (~> 2.0.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    codeclimate-test-reporter (0.4.8)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -37,12 +40,14 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     slop (3.6.0)
+    tilt (2.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bundler (~> 1.10)
+  codeclimate-test-reporter
   neddinna!
   pry
   rake (~> 10.0)
