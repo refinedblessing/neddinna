@@ -12,7 +12,16 @@ module Neddinna
     end
 
     def execute(env)
-      klass.new(env).send(method.to_sym)
+      controller = klass.new(env)
+      text = controller.send(method.to_sym)
+      if controller.get_response
+        status, header, response = controller.get_response.to_a
+        [status, header, [response.body].flatten]
+      elsif controller.template(method)
+        controller.render method
+      else
+        [200, { "Content-Type" => "text/html" }, [text]]
+      end
     end
   end
 end
