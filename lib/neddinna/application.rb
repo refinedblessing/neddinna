@@ -1,4 +1,4 @@
-require_relative "router"
+require_relative "routing/router"
 module Neddinna
   class Application
     attr_reader :routes
@@ -12,7 +12,8 @@ module Neddinna
       if route
         return route.execute(request)
       else
-        return [404, {}, ["Page not found"]]
+        return [404, {},
+                ["Page: #{request.host}#{request.path_info} not found"]]
       end
     end
   end

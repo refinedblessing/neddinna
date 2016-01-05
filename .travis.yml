@@ -1,4 +1,10 @@
 language: ruby
 rvm:
   - 2.2.3
+git:
+  submodules: false
 before_install: gem install bundler -v 1.10.6
+
+before_install:
+  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - git submodule update --init --recursive
