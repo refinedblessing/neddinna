@@ -1,11 +1,10 @@
 require "spec_helper"
 
 describe Neddinna::Application do
-  let(:app) { Neddinna::Application.new }
-  let(:request) { Rack::MockRequest.new(app) }
+  include Rack::Test::Methods
 
-  it "is an object of Application class" do
-    expect(app.class).to eql Neddinna::Application
+  def app
+    @app ||= TodoApplication
   end
 
   it "responds to call" do
@@ -13,25 +12,17 @@ describe Neddinna::Application do
   end
 
   it "responds with a status of 404 if route is not found" do
-    response = request.get("/")
-    expect(response.status).to be 404
+    get("/unknownroute")
+    expect(last_response.status).to be 404
   end
 
-  it "responds with body that contains 'Page not found' if route not found" do
-    response = request.get("/")
-    expect(response.body).to eql "Page not found"
+  it "responds with body that contains 'not found' if route not found" do
+    get("/unknownroute")
+    expect(last_response.body).to include "not found"
   end
 
-  describe "routing to appropriate controller" do
-    before :each do
-      MockApp = app
-      require_relative "support/mock_routes"
-    end
-
-    it "matches request to appropriate controller action" do
-      response = request.get("/index?id=3")
-      expect(response.status).to be 200
-      expect(response.body).to eql "Mock index 3"
-    end
+  it "gives a 200 response if route is found" do
+    get "/todo"
+    expect(last_response).to be_ok
   end
 end
