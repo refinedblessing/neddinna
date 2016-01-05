@@ -1,8 +1,8 @@
 class String
   def to_snake_case
     gsub(/::/, "/").
-      gsub(/([A-Z]+)([A-Z][a-z])/, "\1_\2").
-      gsub(/([a-z\d])([A-Z])/, "\1_\2").
+      gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+      gsub(/([a-z\d])([A-Z])/, '\1_\2').
       tr("-", "_").downcase
   end
 
@@ -22,9 +22,9 @@ class DoubleRenderError < StandardError
   end
 end
 
-# class Object
-#   def self.const_missing(name)
-#     require name.to_snake_case
-#     Object.const_get(name)
-#   end
-# end
+class Object
+  def self.const_missing(name)
+    require name.to_s.to_snake_case + ".rb"
+    Object.const_get(name)
+  end
+end
