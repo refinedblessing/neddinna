@@ -10,10 +10,11 @@ module Neddinna
       request = Rack::Request.new(env)
       route = @routes.route_for(request)
       if route
-        return route.execute(request)
+        route.execute(request)
       else
-        return [404, {},
-                ["Page: #{request.host}#{request.path_info} not found"]]
+        [404, { "Content-Type" => "text/html" },
+         ["<h3 style='color:red;font-size:40px;'>\
+           Page:#{request.host}#{request.path_info} not found :(</h3>"]]
       end
     end
   end

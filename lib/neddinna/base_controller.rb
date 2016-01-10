@@ -1,5 +1,6 @@
 require "erb"
 require "tilt"
+require_relative "orm/base_model"
 module Neddinna
   class BaseController
     attr_reader :request
