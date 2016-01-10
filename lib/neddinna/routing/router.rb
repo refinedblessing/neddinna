@@ -11,11 +11,12 @@ module Neddinna
       get("/#{name}", to: "#{name}#index")
       get("/#{name}/new", to: "#{name}#new")
       get("/#{name}/:id", to: "#{name}#show")
-      get("/#{name}/:id/edit", to: "#{name}#edit")
+      get("/#{name}/edit/:id", to: "#{name}#edit")
+      get("/#{name}/delete/:id", to: "#{name}#destroy")
       post("/#{name}", to: "#{name}#create")
       patch("/#{name}/:id", to: "#{name}#update")
       put("/#{name}/:id", to: "#{name}#update")
-      delete("/#{name}/:id", to: "#{name}#destroy")
+      post("/#{name}/:id", to: "#{name}#update")
     end
 
     def draw(&block)
@@ -27,10 +28,10 @@ module Neddinna
         define_method(verb) do |path, options = {}|
           url_parts = path.split("/")
           url_parts.select! { |part| !part.empty? }
-          placeholders = []
+          placeholder_strings = []
           regexp_parts = url_parts.map do |part|
             if part[0] == ":"
-              placeholders << part[1..-1]
+              placeholder_strings << part[1..-1]
               "([A-Za-z0-9_]+)"
             else
               part
@@ -38,7 +39,7 @@ module Neddinna
           end
           regexp = regexp_parts.join("/")
           routes[verb] << [Regexp.new("^/#{regexp}$"),
-                           parse_to(options[:to]), placeholders]
+                           parse_to(options[:to]), placeholder_strings]
         end
       end
     end
@@ -52,12 +53,13 @@ module Neddinna
         (route.first).match(path)
       end
       if route_array
-        placeholders = {}
+        placeholder_value = {}
         match = route_array.first.match(path)
-        route_array[2].each_with_index do |placeholder, index|
-          placeholders[placeholder] = match.captures[index]
+        placeholder_strings = route_array[2]
+        placeholder_strings.each_with_index do |placeholder, value|
+          placeholder_value[placeholder] = match.captures[value]
         end
-        route_array << placeholders
+        route_array << placeholder_value
         return Route.new(route_array)
       end
       nil
@@ -65,8 +67,8 @@ module Neddinna
 
     private
 
-    def parse_to(to_string)
-      klass, method = to_string.split("#")
+    def parse_to(to_option)
+      klass, method = to_option.split("#")
       { klass: klass.to_camel_case, method: method }
     end
   end

@@ -11,5 +11,5 @@ SimpleCov.start do
 end
 
 require_relative "ned_app/config.rb"
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require "neddinna"

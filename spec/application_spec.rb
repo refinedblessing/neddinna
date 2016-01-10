@@ -4,7 +4,7 @@ describe Neddinna::Application do
   include Rack::Test::Methods
 
   def app
-    @app ||= TodoApplication
+    @app ||= PostApplication
   end
 
   it "responds to call" do
@@ -22,7 +22,7 @@ describe Neddinna::Application do
   end
 
   it "gives a 200 response if route is found" do
-    get "/todo"
+    get "/posts"
     expect(last_response).to be_ok
   end
 end
