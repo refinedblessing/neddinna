@@ -13,3 +13,8 @@ end
 require_relative "ned_app/config.rb"
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require "neddinna"
+
+def setup_table
+  Post.drop_table
+  Post.create_table
+end

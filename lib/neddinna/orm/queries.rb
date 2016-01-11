@@ -26,25 +26,25 @@ module Neddinna
         executor(query)
       end
 
-      def find(id = [])
+      def find(*id)
         values = [id].flatten
         query = "SELECT * FROM #{table_name} WHERE\
          (#{table_name}.id IN (#{values.join(', ')}))"
         report = executor(query)
-        return report.first if values.count == 1
+        return report.first if values.count == 1 && !report.empty?
         report
       end
 
       def find_by(col, val)
         query = "SELECT * FROM #{table_name} WHERE\
-         (#{col} = #{val}) LIMIT 1"
+         (#{col} = '#{val}') LIMIT 1"
         give_result(executor(query))
       end
 
       def where(field_hash)
         clause =
           field_hash.map { |col, val| "#{col} = '#{val}'" }.join(" AND ")
-        executor("SELECT * FROM #{table_name} WHERE (#{clause}) LIMIT 1")
+        executor("SELECT * FROM #{table_name} WHERE (#{clause})")
       end
 
       def destroy(id)
@@ -53,7 +53,7 @@ module Neddinna
       end
 
       def destroy_all
-        executor("DELETE * FROM #{table_name};")
+        executor("DELETE FROM #{table_name}")
       end
 
       def executor(query)
