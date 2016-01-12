@@ -40,7 +40,7 @@ Run with:
 
     $ ruby myapp.rb
 
-View at http://localhost:4444
+View at http://localhost:port
 
 ## Routes
 
@@ -71,7 +71,7 @@ end
 
 ## Views / Templates
 
-Templates are assumed to be located directly under the `./views` directory.
+Templates are assumed to be located directly under the `app/views` directory.
 
 ## Development
 

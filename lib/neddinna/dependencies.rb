@@ -15,12 +15,14 @@ class String
     name = self
     if name[-1] == ("s" || "x" || "o" || "z")
       name += "es"
-    elsif (name[-2] + name[-1]) == ("ch" || "sh")
+    elsif (name[-2..-1]) == ("ch" || "sh")
       name += "es"
     elsif name[-1] == "y"
-      name += "ies"
-    elsif name[-1] == "f" || (name[-2] + name[-1]) == "fe"
-      name += "ves"
+      name[-1] = "ies"
+    elsif name[-1] == "f"
+      name[-1] = "ves"
+    elsif (name[-2..-1]) == "fe"
+      name[-2..-1] = "ves"
     else
       name += "s"
     end
@@ -32,10 +34,6 @@ class DoubleRenderError < StandardError
   DEFAULT_MESSAGE =
   "Render and/or redirect were called multiple times in this action.\
   Please note that you may only call render at most once per action."
-
-  def initialize(message = nil)
-    super(message || DEFAULT_MESSAGE)
-  end
 end
 
 class Object

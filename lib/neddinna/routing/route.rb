@@ -21,7 +21,7 @@ module Neddinna
       elsif controller.template(method)
         controller.render method
       else
-        [200, { "Content-Type" => "text/html" }, [text]]
+        Rack::Response.new([text], 200, "Content-Type" => "text/html")
       end
     end
   end
