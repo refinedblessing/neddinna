@@ -2,10 +2,21 @@ require "sqlite3"
 module Neddinna
   class DbConnector
     class << self
+      def db_path
+        "#{APP_PATH}/db"
+      end
+
+      def db_file
+        if ENV["RACK_ENV"] == "test"
+          "#{db_path}/test.sqlite3"
+        else
+          "#{db_path}/app.sqlite3"
+        end
+      end
+
       def connect
-        db_dir = "#{APP_PATH}/db/app.sqlite3"
-        Dir.mkdir("#{APP_PATH}/db") unless File.exist?(db_dir)
-        @db_conn ||= SQLite3::Database.new db_dir
+        Dir.mkdir(db_path) unless File.exist?(db_path)
+        @db_conn ||= SQLite3::Database.new db_file
         @db_conn.results_as_hash = true
         connection
       end

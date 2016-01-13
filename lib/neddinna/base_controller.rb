@@ -12,27 +12,22 @@ module Neddinna
       @params.merge!(request.params) if request.params
     end
 
-    def klass
+    def klass_folder_name
       self.class.to_s.gsub(/Controller$/, "").to_snake_case
     end
 
     def template(view)
-      file = "app/views/#{klass}/#{view}.html.erb"
-      file.insert(0, "../sample_app/") if ENV["RACK_ENV"] == "test"
+      file = "#{APP_PATH}/app/views/#{klass_folder_name}/#{view}.html.erb"
       return false unless File.exist?(file)
       Tilt::ERBTemplate.new(file)
     end
 
-    def render(view, locals = {}, obj = nil)
-      variables = instance_variables - protected_instance_variables
+    def render(view, obj = nil, locals = {})
+      variables = instance_variables
       variables.each do |name|
         locals[name[1..-1]] = instance_variable_get(name)
       end
       response(template(view).render(obj, locals))
-    end
-
-    def protected_instance_variables
-      [@request]
     end
 
     def response(body, status = 200, headers = {})
