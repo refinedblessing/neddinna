@@ -22,6 +22,10 @@ module Neddinna
         @@query_string << col_name.to_s + " " + desc.values.join(" ")
       end
 
+      def drop_table
+        DbConnector.execute("DROP TABLE IF EXISTS #{@@table_name}")
+      end
+
       def create_table
         q_string = @@query_string.join(", ")
         query =

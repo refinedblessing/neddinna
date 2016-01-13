@@ -1,44 +1,52 @@
 require_relative "../spec_helper"
 
-describe Neddinna::Router do
-  include Rack::Test::Methods
-
-  def app
-    @app ||= PostApplication
+describe Neddinna::Router, type: :routing do
+  before :all do
+    setup_app
+    setup_table
   end
 
-  it "returns a list of all my posts" do
+  it "should allow get /posts to be routable" do
     get "/posts"
     expect(last_response).to be_ok
   end
 
-  it "returns a form for a new posts" do
-    get "/posts/new"
-    expect(last_response).to be_ok
+  it "should allow get /posts/new to be routable" do
+    get "/posts/new", post: { author: "Bb", description: "The post",
+                              title: "title" }
+    expect(last_response.status).to eql 200
+    expect(last_response.body).to include "New"
   end
 
-  # it "returns first item in my postslist" do
-  #   get "/posts/1"
-  #   expect(last_response).to be_ok
-  # end
-  #
-  # it "returns form to edit posts with id 2" do
-  #   get "/posts/2/edit"
-  #   expect(last_response).to be_ok
-  # end
-  #
-  # it "can respond to posts request" do
-  #   posts "/posts"
-  #   expect(last_response).to be_ok
-  # end
-  #
-  # it "can respond to put request" do
-  #   put "/posts/1"
-  #   expect(last_response).to be_ok
-  # end
-  #
-  # it "can respond to delete request" do
-  #   delete "/posts/1"
-  #   expect(last_response).to be_ok
-  # end
+  it "should allow for post requests" do
+    post "/posts", post: { author: "Bb", description: "The post",
+                           title: "title" }
+    expect(last_response.status).to eq 200
+    expect(Post.all.count).to eq 1
+  end
+
+  it "should allow for parameters to passed through the url" do
+    get "/posts/1"
+    expect(last_response.status).to eq 200
+    expect(last_response.body).to include "Bb"
+  end
+
+  it "should respond with correct contents in template" do
+    get "/posts/edit/1"
+    expect(last_response.status).to eq 200
+    expect(last_response.body).to include "The post"
+  end
+
+  it "should render new contents of body when obj is changed" do
+    post "/posts/1", post: { author: "Bb", description: "The post",
+                             title: "Updated", id: 1 }
+    expect(last_response.status).to eq 200
+    expect(Post.first.title).to eq "Updated"
+  end
+
+  it "can respond to delete request" do
+    get "/posts/delete/1"
+    expect(last_response.status).to eq 200
+    expect(Post.first).to eq []
+  end
 end

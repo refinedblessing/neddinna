@@ -10,32 +10,12 @@ class String
     return self if self !~ /_/ && self =~ /[A-Z].*/
     split("_").map(&:capitalize).join
   end
-
-  def pluralize
-    name = self
-    if name[-1] == ("s" || "x" || "o" || "z")
-      name += "es"
-    elsif (name[-2] + name[-1]) == ("ch" || "sh")
-      name += "es"
-    elsif name[-1] == "y"
-      name += "ies"
-    elsif name[-1] == "f" || (name[-2] + name[-1]) == "fe"
-      name += "ves"
-    else
-      name += "s"
-    end
-    name
-  end
 end
 
 class DoubleRenderError < StandardError
   DEFAULT_MESSAGE =
   "Render and/or redirect were called multiple times in this action.\
   Please note that you may only call render at most once per action."
-
-  def initialize(message = nil)
-    super(message || DEFAULT_MESSAGE)
-  end
 end
 
 class Object
