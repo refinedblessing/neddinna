@@ -28,7 +28,6 @@ end
 
 def setup_app
   Capybara.app = PostApplication
-  Capybara.default_driver = :selenium
 end
 
 def app

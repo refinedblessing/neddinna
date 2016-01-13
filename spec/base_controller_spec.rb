@@ -3,8 +3,9 @@ require "spec_helper"
 describe Neddinna::BaseController do
   let(:request) { Rack::Request.new(Rack::MockRequest.env_for("/posts")) }
   let(:obj) { PostsController.new(request) }
-  let(:post) { Post.create(author: "Bb", description: "render test",
-                           title: "TI") }
+  let(:attributes) { { author: "Bb", description: "render test", title: "TI" } }
+  let(:post) { Post.create(attributes) }
+
   before :all do
     setup_table
     setup_app
@@ -13,6 +14,10 @@ describe Neddinna::BaseController do
   it "should be superclass for all controllers initialized with request obj" do
     superclass = obj.class.superclass.superclass
     expect(superclass).to eq Neddinna::BaseController
+  end
+
+  it "should not be a instantiated without a request" do
+    expect { PostsController.new }.to raise_error(ArgumentError)
   end
 
   describe "#klass_folder_name" do
@@ -39,10 +44,10 @@ describe Neddinna::BaseController do
       expect(rendered.body[0]).to include "render test"
     end
 
-    # it "should raise DoubleRenderError if render is called twice" do
-    #   obj.instance_variable_set(:@post, post)
-    #   obj.render(:show)
-    #   expect(obj.render(:show)).to raise_error(DoubleRenderError)
-    # end
+    it "should raise DoubleRenderError if render is called twice" do
+      obj.instance_variable_set(:@post, post)
+      obj.render(:show)
+      expect { obj.render(:show) }.to raise_error(DoubleRenderError)
+    end
   end
 end

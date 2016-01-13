@@ -2,7 +2,7 @@ module Neddinna
   class Queries
     class << self
       def table_name
-        @name ||= (to_s.downcase).pluralize
+        @name ||= to_s.downcase + "s"
       end
 
       def first(num = 1)

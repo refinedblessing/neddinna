@@ -30,7 +30,7 @@ RSpec.describe "BaseModel" do
     end
   end
 
-  describe "create method" do
+  describe "#create" do
     it "should create new model object in database" do
       created_post =
         Post.create(description: "Last created", title: "Title", author: "bae")
@@ -39,14 +39,14 @@ RSpec.describe "BaseModel" do
     end
   end
 
-  describe "update method" do
+  describe "#update" do
     it "should update details of object" do
       post.update(title: "updated title")
       expect(post.title).to eq "updated title"
     end
   end
 
-  describe "save method" do
+  describe "#save" do
     it "should save valid records to database" do
       new_post = Post.new
       new_post.title = "testing save"

@@ -22,25 +22,34 @@ Or install it yourself as:
 
     $ gem install neddinna
 
-## Usage
+## Example Usage
 
-In your file e.g myapp.rb
+Create a folder e.g post_app
 
-###### myapp.rb
+Folder structure:
 
-require "neddinna"
-
-get "/" do
-
->"Hello Africa!"
-
-end
-
-Run with:
-
-    $ ruby myapp.rb
-
-View at http://localhost:port
+    |-- post_app
+      |-- app
+        |-- controllers
+          |-- application_controller.rb
+          |-- post_controller.rb
+        |-- models
+          |-- post.rb
+        |-- views
+          |-- posts
+            |-- edit.html.erb
+            |-- index.html.erb
+            |-- new.html.erb
+            |-- show.html.erb
+      |-- config
+        |-- application.rb
+        |-- routes.rb
+      |-- db
+        |-- app.sqlite3
+        |-- test.sqlite3
+      |-- config.ru
+      |-- Gemfile
+      |-- Gemfile.lock
 
 ## Routes
 
