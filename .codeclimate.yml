@@ -1,5 +1,3 @@
 engines:
-  fixme:
-    enabled: false
   rubocop:
     enabled: false

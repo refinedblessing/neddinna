@@ -1,15 +1,15 @@
 require "spec_helper"
 
 describe Neddinna::BaseController do
-  let(:request) { Rack::Request.new(Rack::MockRequest.env_for("/posts")) }
-  let(:obj) { PostsController.new(request) }
-  let(:attributes) { { author: "Bb", description: "render test", title: "TI" } }
-  let(:post) { Post.create(attributes) }
-
   before :all do
     setup_table
     setup_app
   end
+
+  let(:request) { Rack::Request.new(Rack::MockRequest.env_for("/posts")) }
+  let(:obj) { PostsController.new(request) }
+  let(:attributes) { { author: "Bb", description: "render test", title: "TI" } }
+  let!(:post) { Post.create(attributes) }
 
   it "should be superclass for all controllers initialized with request obj" do
     superclass = obj.class.superclass.superclass
