@@ -3,6 +3,10 @@ require "spec_helper"
 RSpec.describe Neddinna::DbConnector do
   let(:db_path) { Neddinna::DbConnector.db_path }
 
+  before :all do
+    setup_table
+  end
+
   after :all do
     ENV["RACK_ENV"] = "test"
   end
